@@ -1,0 +1,19 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "jest": true
+    },
+    "plugins": [
+        "react",
+        "react-native"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "rules": {
+        "indent": ["error", 2],
+        "semi" : ["error", "never"]
+    }
+}
