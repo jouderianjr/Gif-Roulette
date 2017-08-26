@@ -103,6 +103,8 @@ class MainScreen extends Component {
             color={primaryColor}
             isDisabled={this.state.isLoading || this.state.searchText === ''}
             onPress={this.searchGif.bind(this)} />
+
+          <Text style={styles.poweredBy}>{'Powered by Giphy <3'}</Text>
         </View>
       </View>
     )
@@ -128,6 +130,13 @@ const styles = StyleSheet.create({
   },
   input : {
     flex: 0.5
+  },
+  poweredBy : {
+    position: 'absolute',
+    bottom: 10,
+    fontFamily: 'indieFlower',
+    fontSize: 20,
+    color: primaryColor
   }
 })
 
