@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const API_KEY = '76792192255c42c3a11c58ea1acfbe27'
-const BASE_URL = 'https://api.giphy.com/v1/stickers/'
+const BASE_URL = 'https://api.giphy.com/v1/gifs/'
 
 export const searchGif = (term) => {
   const offset = Math.floor(Math.random() * 1000)
