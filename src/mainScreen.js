@@ -1,17 +1,24 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Share } from 'react-native'
-import { RoundedButton, Input, GifModal, LoadingModal } from './components'
 import { searchGif } from './api'
 import { primaryColor, secondaryColor } from './config/colors'
 
+import {
+  RoundedButton,
+  Input,
+  GifModal,
+  LoadingModal,
+  NoResultModal
+} from './components'
 
 class MainScreen extends Component {
   state = {
-    isLoading      : false,
-    isGifModalOpen : false,
-    searchText     : '',
-    gifs           : [],
-    currentGif     : ''
+    isLoading           : false,
+    isGifModalOpen      : false,
+    isNoResultModalOpen : false,
+    searchText          : '',
+    gifs                : [],
+    currentGif          : ''
   }
 
   searchGif () {
@@ -19,13 +26,23 @@ class MainScreen extends Component {
     searchGif(this.state.searchText)
       .then((result) => {
 
-        this.setState({
-          gifs: result,
-          isLoading: false,
-          isGifModalOpen:true
-        })
+        if(result.length === 0) {
 
-        this.setCurrentGifRandomically()
+          this.setState({
+            isNoResultModalOpen:true,
+            isLoading:false
+          })
+
+        } else {
+          this.setState({
+            gifs: result,
+            isLoading: false,
+            isGifModalOpen:true
+          })
+
+          this.setCurrentGifRandomically()
+
+        }
       })
   }
 
@@ -57,10 +74,14 @@ class MainScreen extends Component {
         <GifModal
           visible={this.state.isGifModalOpen}
           onCloseClickBtn={this.closeGifModal.bind(this)}
-          onRequestClose={this.closeGifModal.bind(this)}
           onChangeImagePress={this.setCurrentGifRandomically.bind(this)}
           onSharePress={this.onSharePress.bind(this)}
           gif={this.state.currentGif}
+        />
+
+        <NoResultModal
+          onCloseClickBtn={() => this.setState({isNoResultModalOpen: false})}
+          visible={this.state.isNoResultModalOpen}
         />
 
         <LoadingModal

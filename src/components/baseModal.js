@@ -24,7 +24,8 @@ const BaseModal = props => {
 
   return (
     <Modal
-      {...props}
+      {...restProps}
+      onRequestClose={() => onCloseClickBtn && onCloseClickBtn()}
       animationType={animationType}
     >
       <View style={[styles.modal, style]} >
