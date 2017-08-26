@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Share } from 'react-native'
 import { RoundedButton, Input, GifModal, LoadingModal } from './src/components'
 import { Font } from 'expo'
 import { searchGif } from './src/api'
@@ -11,7 +11,8 @@ export default class App extends React.Component {
     isLoading      : false,
     isGifModalOpen : false,
     searchText     : '',
-    gifs           : []
+    gifs           : [],
+    currentGif     : ''
   }
 
   async componentDidMount() {
@@ -32,7 +33,31 @@ export default class App extends React.Component {
           isLoading: false,
           isGifModalOpen:true
         })
+
+        this.setCurrentGifRandomically()
       })
+  }
+
+  setCurrentGifRandomically() {
+    const {gifs} = this.state
+    if (gifs && gifs.length > 0 ) {
+      const randomIndex = Math.floor( Math.random() * gifs.length )
+      const gif = gifs[randomIndex]
+
+      this.setState(() => {
+        return { currentGif: gif.images.original.url}
+      })
+    }
+  }
+
+  onSharePress() {
+    Share.share({message: this.state.currentGif})
+  }
+
+  closeGifModal() {
+    this.setState(() => {
+      return {isGifModalOpen:false}
+    })
   }
 
   render() {
@@ -41,9 +66,11 @@ export default class App extends React.Component {
         <View style={styles.container}>
           <GifModal
             visible={this.state.isGifModalOpen}
-            onCloseClickBtn={() => this.setState({isGifModalOpen: false})}
-            onRequestClose={() => this.setState({isGifModalOpen : false})}
-            gifs={this.state.gifs}
+            onCloseClickBtn={this.closeGifModal.bind(this)}
+            onRequestClose={this.closeGifModal.bind(this)}
+            onChangeImagePress={this.setCurrentGifRandomically.bind(this)}
+            onSharePress={this.onSharePress.bind(this)}
+            gif={this.state.currentGif}
           />
 
           <LoadingModal
