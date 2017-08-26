@@ -24,32 +24,31 @@ const GifModal = props => {
       {...restProps}
       animationType='slide'
     >
-      <View
-        style={[styles.modal, style]}
-      >
-        <Image
-          resizeMode='contain'
-          style={styles.gif}
-          source={{uri: gif}}
-        />
+      {gif !== '' &&
+        <View
+          style={[styles.modal, style]}
+        >
+          <Image
+            resizeMode='contain'
+            style={styles.gif}
+            source={{uri: gif}}
+          />
+          <View style={styles.buttonGroup}>
 
-        <View style={styles.buttonGroup}>
+            <RoundedButton
+              size={80}
+              icon='debug-step-over'
+              color={primaryColor}
+              onPress={onChangeImagePress}
+              style={{marginRight: 16}}/>
 
-          <RoundedButton
-            size={80}
-            icon='debug-step-over'
-            color={primaryColor}
-            onPress={onChangeImagePress}
-            style={{marginRight: 16}}/>
-
-          <RoundedButton
-            size={80}
-            icon='share'
-            color={primaryColor}
-            onPress={onSharePress} />
-
-        </View>
-      </View>
+            <RoundedButton
+              size={80}
+              icon='share'
+              color={primaryColor}
+              onPress={onSharePress} />
+          </View>
+        </View>}
     </BaseModal>
   )
 }
